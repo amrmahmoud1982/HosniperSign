@@ -2,21 +2,23 @@ services:
   server:
     image: opensign/opensignserver:main
     container_name: OpenSignServer-container
+    restart: unless-stopped
     volumes:
       - opensign-files:/usr/src/app/files
     ports:
-      - "8080:8080"
+      - "1982:8080"
     depends_on:
       - mongo
     env_file: .env.prod
     environment:
       - NODE_ENV=production
-      - SERVER_URL=${HOST_URL:-https://localhost:3001}/app
+      - SERVER_URL=${HOST_URL:-https://esign.hosniper.com}/app
     networks:
       - app-network
   mongo:
     image: mongo:latest
     container_name: mongo-container
+    restart: unless-stopped
     volumes:
       - data-volume:/data/db
     ports:
@@ -26,9 +28,10 @@ services:
   client:
     image: opensign/opensign:main
     container_name: OpenSign-container
+    restart: unless-stopped
     depends_on:
       - server
-    env_file: .env.prod  
+    env_file: .env.prod
     ports:
       - "3000:3000"
     networks:
@@ -36,19 +39,21 @@ services:
   caddy:
     image: caddy:latest
     container_name: caddy-container
+    restart: unless-stopped
     ports:
       - "3001:3001"
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      - "8082:80"
+      - "4433:4433"
+      - "4433:4433/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+#     - /usr/local/hestia/data/users/user/ssl:/etc/caddy
     networks:
       - app-network
     environment:
-      - HOST_URL=${HOST_URL:-localhost:3001}
+      - HOST_URL=${HOST_URL:-https://esign.hosniper.com}
 networks:
   app-network:
     driver: bridge

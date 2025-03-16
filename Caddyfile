@@ -1,7 +1,24 @@
-{$HOST_URL} {
+#{$HOST_URL} {
+#    reverse_proxy client:3000
+#    handle_path /app/* {
+#        reverse_proxy server:8080
+#            rewrite * /app{uri}
+#    }
+#}
+#esign.hosniper.com {
+#       reverse_proxy client:3000
+#       handle_path /app/* {
+#               reverse_proxy server:8080
+#               rewrite * /app{uri}
+#       }
+#}
+esign.hosniper.com:4433 {
+#   tls /etc/caddy/esign.hosniper.com.crt /etc/caddy/esign.hosniper.com.key
+
     reverse_proxy client:3000
+
     handle_path /app/* {
         reverse_proxy server:8080
-            rewrite * /app{uri}
+        rewrite * /app{uri}
     }
 }
