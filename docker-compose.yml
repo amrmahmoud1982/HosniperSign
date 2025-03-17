@@ -49,7 +49,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-#     - /usr/local/hestia/data/users/user/ssl:/etc/caddy
+      - /usr/local/hestia/data/users/user/ssl:/etc/caddy
     networks:
       - app-network
     environment:
