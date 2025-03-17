@@ -13,7 +13,7 @@
 #       }
 #}
 esign.hosniper.com:4433 {
-#   tls /etc/caddy/esign.hosniper.com.crt /etc/caddy/esign.hosniper.com.key
+    tls /etc/caddy/esign.hosniper.com.crt /etc/caddy/esign.hosniper.com.key
 
     reverse_proxy client:3000
 
