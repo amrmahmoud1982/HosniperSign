@@ -1,6 +1,8 @@
 services:
   server:
-    image: opensign/opensignserver:main
+    build:
+      context: ./apps/OpenSignServer
+      dockerfile: Dockerfile
     container_name: OpenSignServer-container
     restart: unless-stopped
     volumes:
@@ -15,8 +17,11 @@ services:
       - SERVER_URL=${HOST_URL:-https://esign.hosniper.com}/app
     networks:
       - app-network
+
   mongo:
-    image: mongo:latest
+    build:
+      context: ./apps/mongo
+      dockerfile: Dockerfile
     container_name: mongo-container
     restart: unless-stopped
     volumes:
@@ -25,8 +30,11 @@ services:
       - "27018:27017"
     networks:
       - app-network
+
   client:
-    image: opensign/opensign:main
+    build:
+      context: ./apps/OpenSign
+      dockerfile: Dockerfile
     container_name: OpenSign-container
     restart: unless-stopped
     depends_on:
@@ -36,6 +44,7 @@ services:
       - "3000:3000"
     networks:
       - app-network
+
   caddy:
     image: caddy:latest
     container_name: caddy-container
@@ -54,13 +63,12 @@ services:
       - app-network
     environment:
       - HOST_URL=${HOST_URL:-https://esign.hosniper.com}
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   data-volume:
-  web-root:
-  caddy_data:
-  caddy_config:
   opensign-files:
+  caddy_data:
