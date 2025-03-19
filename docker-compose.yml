@@ -55,7 +55,7 @@ services:
       - "4433:4433"
       - "4433:4433/udp"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - root/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
       - /usr/local/hestia/data/users/user/ssl:/etc/caddy
