@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   server:
     build:
@@ -55,7 +57,7 @@ services:
       - "4433:4433"
       - "4433:4433/udp"
     volumes:
-      - root/Caddyfile:/etc/caddy/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
       - /usr/local/hestia/data/users/user/ssl:/etc/caddy
@@ -72,3 +74,4 @@ volumes:
   data-volume:
   opensign-files:
   caddy_data:
+  caddy_config:
